@@ -1,12 +1,25 @@
+import { getSession } from "@auth0/nextjs-auth0";
 import Image from "next/image";
+import { auth0 } from "./api/auth/[auth0]/helper";
 
-export default function Home() {
+export default async function Home() {
+  const session = await auth0.getSession()
+
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+   
+     
+     
+     
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
+        <div className="max-w-[1200px] text-wrap text-left ">
+            <p>
+            {JSON.stringify(session?.user, null,2)}
+            </p>
+        </div>
         <Image
           className="dark:invert"
-          src="/next.svg"
+          src="https://nextjs.org/icons/next.svg"
           alt="Next.js logo"
           width={180}
           height={38}
@@ -32,13 +45,39 @@ export default function Home() {
           >
             <Image
               className="dark:invert"
-              src="/vercel.svg"
+              src="https://nextjs.org/icons/vercel.svg"
               alt="Vercel logomark"
               width={20}
               height={20}
             />
             Deploy now
           </a>
+        {!session?.user &&  <a
+            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
+            href="/api/auth/login"
+          >
+            <Image
+              className="dark:invert"
+              src="https://nextjs.org/icons/vercel.svg"
+              alt="Vercel logomark"
+              width={20}
+              height={20}
+            />
+            login
+          </a>}
+          {session?.user && <a
+            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
+            href="/api/auth/logout"
+          >
+            <Image
+              className="dark:invert"
+              src="https://nextjs.org/icons/vercel.svg"
+              alt="Vercel logomark"
+              width={20}
+              height={20}
+            />
+            logout
+          </a>}
           <a
             className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
             href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
@@ -58,7 +97,7 @@ export default function Home() {
         >
           <Image
             aria-hidden
-            src="/file.svg"
+            src="https://nextjs.org/icons/file.svg"
             alt="File icon"
             width={16}
             height={16}
@@ -73,7 +112,7 @@ export default function Home() {
         >
           <Image
             aria-hidden
-            src="/window.svg"
+            src="https://nextjs.org/icons/window.svg"
             alt="Window icon"
             width={16}
             height={16}
@@ -88,7 +127,7 @@ export default function Home() {
         >
           <Image
             aria-hidden
-            src="/globe.svg"
+            src="https://nextjs.org/icons/globe.svg"
             alt="Globe icon"
             width={16}
             height={16}
